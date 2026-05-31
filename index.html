@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Estimasi Biaya Kegiatan</title>
+  </head>
+  <body>
+    <h1>Estimasi Biaya Konsumsi</h1>
+
+    <p>Muhammad Haaris Nur Salim</p>
+    <p>Mini Project - 0920240033</p>
+
+    <input type="number" id="jumlah" placeholder="Jumlah peserta" />
+    <select id="jenis">
+      <option value="snack">Snack</option>
+      <option value="makan">Makan</option>
+      <option value="lengkap">Lengkap</option>
+    </select>
+
+    <button onclick="hitung()">Hitung</button>
+
+    <pre id="result"></pre>
+
+    <script>
+      async function hitung() {
+        const jumlah = document.getElementById("jumlah").value;
+        const jenis = document.getElementById("jenis").value;
+
+        const res = await fetch(
+          `/api/estimasi?jumlah=${jumlah}&jenis=${jenis}`,
+        );
+        const data = await res.json();
+
+        document.getElementById("result").textContent = JSON.stringify(
+          data,
+          null,
+          2,
+        );
+      }
+    </script>
+  </body>
+</html>
