@@ -26,7 +26,7 @@
         const jenis = document.getElementById("jenis").value;
 
         const res = await fetch(
-          `/api/estimasi?jumlah=${jumlah}&jenis=${jenis}`,
+          `https://func-miniproject-033-h2cecpbsb7abd2a0.indonesiacentral-01.azurewebsites.net/api/HttpMiniProject?jumlah=${jumlah}&jenis=${jenis}`,
         );
         const data = await res.json();
 
