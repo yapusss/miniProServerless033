@@ -2,39 +2,128 @@
 <html>
   <head>
     <title>Estimasi Biaya Kegiatan</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        background: #f5f7fa;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      input,
+      select,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        background-color: #0078d4;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #005fa3;
+      }
+
+      pre {
+        background: #1e1e1e;
+        color: #00ffcc;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+    </style>
   </head>
+
   <body>
     <h1>Estimasi Biaya Konsumsi</h1>
 
-    <p>Muhammad Haaris Nur Salim</p>
-    <p>Mini Project - 0920240033</p>
+    <div class="card">
+      <p><strong>Nama:</strong> Muhammad Haaris Nur Salim</p>
+      <p><strong>NIM:</strong> 0920240033</p>
 
-    <input type="number" id="jumlah" placeholder="Jumlah peserta" />
-    <select id="jenis">
-      <option value="snack">Snack</option>
-      <option value="makan">Makan</option>
-      <option value="lengkap">Lengkap</option>
-    </select>
+      <p><strong>Azure Services:</strong></p>
+      <ul>
+        <li>Azure Function Apps</li>
+        <li>Azure Static Web Apps</li>
+      </ul>
+    </div>
 
-    <button onclick="hitung()">Hitung</button>
+    <div class="card">
+      <input type="number" id="jumlah" placeholder="Jumlah peserta" />
 
-    <pre id="result"></pre>
+      <select id="jenis">
+        <option value="snack">Snack</option>
+        <option value="makan">Makan</option>
+        <option value="lengkap">Lengkap</option>
+      </select>
+
+      <button onclick="hitung()">Hitung Estimasi</button>
+      <button onclick="getWaktu()">Cek Waktu Server</button>
+    </div>
+
+    <div class="card">
+      <h3>Hasil:</h3>
+      <pre id="result">Belum ada data...</pre>
+    </div>
 
     <script>
       async function hitung() {
         const jumlah = document.getElementById("jumlah").value;
         const jenis = document.getElementById("jenis").value;
 
-        const res = await fetch(
-          `https://func-miniproject-033-h2cecpbsb7abd2a0.indonesiacentral-01.azurewebsites.net/api/HttpMiniProject?jumlah=${jumlah}&jenis=${jenis}`,
-        );
-        const data = await res.json();
+        try {
+          const res = await fetch(
+            `https://func-miniproject-033-h2cecpbsb7abd2a0.indonesiacentral-01.azurewebsites.net/api/HttpMiniProject?jumlah=${jumlah}&jenis=${jenis}`,
+          );
+          const data = await res.json();
 
-        document.getElementById("result").textContent = JSON.stringify(
-          data,
-          null,
-          2,
-        );
+          document.getElementById("result").textContent = JSON.stringify(
+            data,
+            null,
+            2,
+          );
+        } catch (error) {
+          document.getElementById("result").textContent =
+            "Error: " + error.message;
+        }
+      }
+
+      async function getWaktu() {
+        try {
+          const res = await fetch(
+            `https://func-miniproject-033-h2cecpbsb7abd2a0.indonesiacentral-01.azurewebsites.net/api/HttpWaktu`,
+          );
+          const data = await res.json();
+
+          document.getElementById("result").textContent = JSON.stringify(
+            data,
+            null,
+            2,
+          );
+        } catch (error) {
+          document.getElementById("result").textContent =
+            "Error: " + error.message;
+        }
       }
     </script>
   </body>
